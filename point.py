@@ -1,6 +1,7 @@
 from tkinter import *
 from parameters import *
 from random import randint, choice, random
+from math import sqrt
 
 
 class Point(object):
@@ -40,3 +41,10 @@ class Point(object):
     def get_y(self):
         x0, y0, x1, y1 = self.canvas.coords(self.point)
         return (y0 + y1) / 2
+
+    def __sub__(self, other):
+        dist_x = other.get_x() - self.get_x()
+        dist_y = other.get_y() - self.get_y()
+
+        return sqrt(pow(dist_x, 2) + pow(dist_y, 2))
+
