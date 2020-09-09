@@ -26,7 +26,6 @@ class NetOfDots(object):
         return points
 
     def animation(self):
-        print('animation')
         while True:
             sleep(REFRESH_TIME)
 
