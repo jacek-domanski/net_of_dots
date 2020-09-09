@@ -23,8 +23,14 @@ class NetOfDots(object):
         while True:
             sleep(REFRESH_TIME)
 
-            for pt in self.points:
+            for i, pt in enumerate(self.points):
                 self.canvas.move(pt.point, pt.x_velo, pt.y_velo)
+
+                if pt.is_out_of_canvas():
+                    self.canvas.delete(pt.point)
+                    del self.points[i]
+                    self.points.append(Point(self.canvas))
+
             self.canvas.update()
 
     def run(self):
