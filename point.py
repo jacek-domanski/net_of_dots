@@ -10,7 +10,8 @@ class Point(object):
         self.point = self.__create_circle(randint(POINT_RADIUS, CANVAS_WIDTH - POINT_RADIUS),
                                           randint(POINT_RADIUS, CANVAS_WIDTH - POINT_RADIUS),
                                           POINT_RADIUS,
-                                          fill='black')
+                                          fill=COLOR,
+                                          outline=COLOR)
         self.x_velo = self.__random_velo()
         self.y_velo = self.__random_velo()
 

@@ -2,15 +2,21 @@ from tkinter import *
 from time import sleep
 from parameters import *
 from point import Point
+from math import exp
 
 
 class NetOfDots(object):
     def __init__(self):
         self.root = Tk()
         self.canvas = Canvas(self.root, width=CANVAS_WIDTH, height=CANVAS_HEIGHT)
+        self.add_background()
         self.points = self._create_points()
         self.lines = []
         self.canvas.pack()
+
+    def add_background(self):
+        self.bg_image = PhotoImage(file='bg.png')
+        self.canvas.create_image(0, 0, anchor=NW, image=self.bg_image)
 
     def _create_points(self):
         points = []
@@ -20,6 +26,7 @@ class NetOfDots(object):
         return points
 
     def animation(self):
+        print('animation')
         while True:
             sleep(REFRESH_TIME)
 
@@ -36,8 +43,9 @@ class NetOfDots(object):
 
         for i, point_a in enumerate(self.points[:-1]):
             for point_b in self.points[i:]:
-                if point_a-point_b <= MAX_LINE_LENGTH:
-                    self.draw_line_between_points(point_a, point_b)
+                distance = point_a - point_b
+                if distance <= MAX_LINE_LENGTH:
+                    self.draw_line_between_points(point_a, point_b, distance)
 
     def remove_all_lines(self):
         for line in self.lines:
@@ -45,8 +53,9 @@ class NetOfDots(object):
 
         self.lines = []
 
-    def draw_line_between_points(self, a: Point, b: Point):
-        line = self.canvas.create_line(a.get_x(), a.get_y(), b.get_x(), b.get_y())
+    def draw_line_between_points(self, a: Point, b: Point, distance):
+        line_width = MAX_LINE_WIDTH * exp(-distance / 100)
+        line = self.canvas.create_line(a.get_x(), a.get_y(), b.get_x(), b.get_y(), width=line_width, fill=COLOR)
         self.lines.append(line)
 
     def replace_point_if_out_of_canvas(self, i, pt):
